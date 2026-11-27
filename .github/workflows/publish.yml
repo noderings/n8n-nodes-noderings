@@ -1,13 +1,10 @@
-# Publishes the package to npm when a version tag (for example 0.1.0) is pushed.
+# Publishes the package to npm when a version tag (for example 0.1.1) is pushed.
 # n8n only verifies community nodes published from GitHub Actions with an npm
 # provenance statement, which this workflow produces.
 #
-# One-time setup, either:
-#   A) npm Trusted Publishing (recommended): on npmjs.com, package settings,
-#      Trusted Publishers, add GitHub Actions with owner "noderings",
-#      repository "n8n-nodes-noderings" and workflow "publish.yml".
-#   B) An npm granular access token with publish rights, stored as the
-#      NPM_TOKEN repository secret.
+# Publishing uses npm Trusted Publishing (OIDC): on npmjs.com, package settings,
+# Trusted Publishers, add GitHub Actions with owner "noderings", repository
+# "n8n-nodes-noderings" and workflow "publish.yml". No long-lived npm token.
 name: publish
 
 on:
@@ -30,16 +27,23 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
+          # Trusted publishing needs Node 22.14+ and npm 11.5.1+.
           node-version: 24
           cache: npm
           registry-url: https://registry.npmjs.org
+      - name: Use npm 11.5.1 or later
+        run: npm install -g npm@latest
       - run: npm ci
       # Tests import compiled files under dist/; CI also builds before test.
       - run: npm run build
       - run: npm test
       # In GitHub Actions, `n8n-node release` lints, builds and runs
-      # `npm publish` with a provenance statement.
+      # `npm publish` with a provenance statement. Trusted publishing
+      # exchanges the GitHub OIDC token itself; drop the token-based
+      # .npmrc that setup-node wrote so an empty NODE_AUTH_TOKEN cannot
+      # break OIDC (same approach as noderings/pulumi-noderings).
       - name: Publish with provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm run release
+        run: |
+          rm -f "${NPM_CONFIG_USERCONFIG}"
+          unset NODE_AUTH_TOKEN
+          npm run release

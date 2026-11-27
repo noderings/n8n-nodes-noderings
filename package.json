@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-noderings",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "n8n community node for the NodeRings API: virtual machines, SSH keys, DNS, firewalls, snapshots and backups, plus a trigger for new VMs and status changes.",
 	"license": "MIT",
 	"homepage": "https://github.com/noderings/n8n-nodes-noderings#readme",

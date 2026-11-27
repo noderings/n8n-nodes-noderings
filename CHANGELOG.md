@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1
+
+- Publish via npm trusted publishing.
+- CI build-before-test fix.
+- publishConfig access public.
+
 ## 0.1.0
 
 - NodeRings node: virtual machines (create, get, list, start, stop, restart, reinstall, delete,
