@@ -7,6 +7,7 @@ import type {
 	IN8nHttpFullResponse,
 	INodeProperties,
 } from 'n8n-workflow';
+import { NodeOperationError } from 'n8n-workflow';
 
 /** Fields kept when Simplify is on for a virtual machine. */
 const SIMPLE_VM_FIELDS = [
@@ -94,12 +95,16 @@ export async function prepareVirtualMachineBody(
 		case 'password':
 			body.password = this.getNodeParameter('password', '') as string;
 			break;
-		case 'userData':
-			body.userData = this.getNodeParameter('userData', '') as string;
-			break;
-		case 'cloudInitUserData':
-			body.cloudInitUserDataId = this.getNodeParameter('cloudInitUserDataId', '') as string;
-			break;
+		default:
+			// Workflows saved with 0.1.x may still hold 'userData' or 'cloudInitUserData'.
+			throw new NodeOperationError(
+				this.getNode(),
+				`Access method "${accessMethod}" is no longer supported`,
+				{
+					description:
+						'NodeRings no longer accepts cloud-init user data when creating or reinstalling a virtual machine. Choose SSH Keys or Password, then run your setup over SSH.',
+				},
+			);
 	}
 
 	const extra = this.getNodeParameter('additionalFields', {}) as IDataObject;

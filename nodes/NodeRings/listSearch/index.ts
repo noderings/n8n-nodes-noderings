@@ -104,15 +104,3 @@ export async function getSshKeyOptions(
 	const keys = await nodeRingsApiRequestAllItems.call(this, '/v1/ssh-keys', 'sshKeys');
 	return keys.map((k) => ({ name: String(k.name), value: String(k.id) }));
 }
-
-/** Saved cloud-init user data for the dropdown on create and reinstall. */
-export async function getCloudInitOptions(
-	this: ILoadOptionsFunctions,
-): Promise<INodePropertyOptions[]> {
-	const profiles = await nodeRingsApiRequestAllItems.call(
-		this,
-		'/v1/cloudinituserdata',
-		'profiles',
-	);
-	return profiles.map((p) => ({ name: String(p.name), value: String(p.id) }));
-}

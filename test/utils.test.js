@@ -39,11 +39,23 @@ test('create keeps a given idempotency key; reinstall sends none', async () => {
 		params: { operation: 'create', hostname: 'h', planId: 'p', regionId: 'r', accessMethod: 'password', password: 'pw', additionalFields: { idempotencyKey: 'fixed-key' } },
 	});
 	assert.equal((await utils.prepareVirtualMachineBody.call(create, {})).body.idempotencyKey, 'fixed-key');
-	const reinstall = context({ params: { operation: 'reinstall', accessMethod: 'userData', userData: '#x', additionalFields: {} } });
+	const reinstall = context({ params: { operation: 'reinstall', accessMethod: 'password', password: 'pw', additionalFields: {} } });
 	const { body } = await utils.prepareVirtualMachineBody.call(reinstall, {});
 	assert.equal(body.idempotencyKey, undefined);
 	assert.equal(body.hostname, undefined);
-	assert.deepEqual(Object.keys(body), ['userData']);
+	assert.deepEqual(Object.keys(body), ['password']);
+});
+
+test('cloud-init access methods from older workflows fail before any request', async () => {
+	for (const operation of ['create', 'reinstall']) {
+		for (const accessMethod of ['userData', 'cloudInitUserData']) {
+			const ctx = context({
+				params: { operation, hostname: 'h', planId: 'p', regionId: 'r', accessMethod, userData: '#cloud-config', cloudInitUserDataId: 'c', additionalFields: {} },
+			});
+			await assert.rejects(utils.prepareVirtualMachineBody.call(ctx, {}), /no longer supported/);
+			assert.equal(ctx.calls.length, 0);
+		}
+	}
 });
 
 function rows(n, from = 0) {
