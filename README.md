@@ -111,6 +111,7 @@ with a provenance statement when a version tag such as `0.1.0` is pushed.
 - [NodeRings](https://noderings.com)
 - [NodeRings API description](https://api.noderings.com/v1/openapi.json)
 - [n8n community nodes](https://docs.n8n.io/integrations/community-nodes/)
+- [Go SDK](https://github.com/noderings/noderings-go) for using the NodeRings API from Go
 
 ## License
 
