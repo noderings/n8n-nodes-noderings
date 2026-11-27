@@ -36,7 +36,7 @@ export class NodeRingsTrigger implements INodeType {
 		properties: [
 			{
 				displayName:
-					'NodeRings has no webhooks for these events, so this trigger checks the API on the schedule below. The first check only records what exists; events start from the second.',
+					'NodeRings has no webhooks for these events, so this trigger checks the API on the Poll Times schedule. The first check only records what exists; events start from the second.',
 				name: 'notice',
 				type: 'notice',
 				default: '',
