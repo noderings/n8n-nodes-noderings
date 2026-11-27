@@ -34,6 +34,8 @@ jobs:
           cache: npm
           registry-url: https://registry.npmjs.org
       - run: npm ci
+      # Tests import compiled files under dist/; CI also builds before test.
+      - run: npm run build
       - run: npm test
       # In GitHub Actions, `n8n-node release` lints, builds and runs
       # `npm publish` with a provenance statement.
