@@ -4,6 +4,11 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    ignore:
+      # n8n's templates and linter target TypeScript 5.9 (6.x deprecates their tsconfig,
+      # 7.x breaks typescript-eslint). Raise this when the n8n template moves.
+      - dependency-name: "typescript"
+        versions: [">=6.0.0"]
     groups:
       dev-dependencies:
         patterns: ["*"]
