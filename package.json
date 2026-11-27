@@ -1,0 +1,61 @@
+{
+	"name": "n8n-nodes-noderings",
+	"version": "0.1.0",
+	"description": "n8n community node for the NodeRings API: virtual machines, SSH keys, DNS, firewalls, snapshots and backups, plus a trigger for new VMs and status changes.",
+	"license": "MIT",
+	"homepage": "https://github.com/noderings/n8n-nodes-noderings#readme",
+	"keywords": [
+		"n8n-community-node-package",
+		"n8n",
+		"noderings",
+		"virtual-machines",
+		"vps",
+		"dns",
+		"cloud"
+	],
+	"author": {
+		"name": "NodeRings Team",
+		"email": "partners@noderings.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/noderings/n8n-nodes-noderings.git"
+	},
+	"bugs": {
+		"url": "https://github.com/noderings/n8n-nodes-noderings/issues"
+	},
+	"scripts": {
+		"build": "n8n-node build",
+		"build:watch": "tsc --watch",
+		"dev": "n8n-node dev",
+		"lint": "n8n-node lint",
+		"lint:fix": "n8n-node lint --fix",
+		"test": "node --test test/*.test.js",
+		"release": "n8n-node release",
+		"prepublishOnly": "n8n-node prerelease"
+	},
+	"files": [
+		"dist"
+	],
+	"n8n": {
+		"n8nNodesApiVersion": 1,
+		"strict": true,
+		"credentials": [
+			"dist/credentials/NodeRingsApi.credentials.js"
+		],
+		"nodes": [
+			"dist/nodes/NodeRings/NodeRings.node.js",
+			"dist/nodes/NodeRingsTrigger/NodeRingsTrigger.node.js"
+		]
+	},
+	"devDependencies": {
+		"@n8n/node-cli": "^0.58.7",
+		"eslint": "9.32.0",
+		"prettier": "3.6.2",
+		"release-it": "^21.1.0",
+		"typescript": "5.9.2"
+	},
+	"peerDependencies": {
+		"n8n-workflow": "*"
+	}
+}

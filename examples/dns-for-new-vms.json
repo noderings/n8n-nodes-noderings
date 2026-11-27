@@ -1,0 +1,60 @@
+{
+  "name": "NodeRings: DNS name for every new server",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "event": "ipAssigned"
+      },
+      "name": "New server has an IP",
+      "type": "n8n-nodes-noderings.nodeRingsTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "dnsRecord",
+        "operation": "upsert",
+        "zoneId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "recordName": "={{ $json.hostname }}",
+        "recordType": "A",
+        "values": "={{ $json.ipv4 }}",
+        "ttl": 300
+      },
+      "name": "Create DNS record",
+      "type": "n8n-nodes-noderings.nodeRings",
+      "typeVersion": 1,
+      "position": [
+        260,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "New server has an IP": {
+      "main": [
+        [
+          {
+            "node": "Create DNS record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {}
+}

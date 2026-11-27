@@ -1,0 +1,14 @@
+{
+	"node": "n8n-nodes-noderings.nodeRingsTrigger",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["Development"],
+	"resources": {
+		"credentialDocumentation": [
+			{ "url": "https://github.com/noderings/n8n-nodes-noderings#credentials" }
+		],
+		"primaryDocumentation": [
+			{ "url": "https://github.com/noderings/n8n-nodes-noderings#trigger" }
+		]
+	}
+}
