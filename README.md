@@ -41,7 +41,7 @@ Create a **NodeRings API** credential:
 | Firewall Ruleset | Create, Get, Get Many, Rename, Delete |
 | Snapshot | Create, Get, Get Many, Restore, Delete |
 | Backup | Get, Get Many, Restore, Delete |
-| Cloud-Init User Data | Create, Get, Get Many, Update, Delete |
+| Cloud-Init User Data (deprecated) | Create, Get, Get Many, Update, Delete |
 | Tag | Get Many |
 | Marketplace | Get Many Regions, Get Many Plan Codes, Get Many Offers, Get Plan, Get Distros |
 
@@ -50,8 +50,14 @@ Notes:
 - **Creating a virtual machine** orders a server that is billed from that moment. You need a
   `planId` and `regionId`: use **Marketplace → Get Many Offers** (plan code, country and city)
   and take `planId` and `planRegions[].regionId` from the offer you want.
-- **One access method** per create or reinstall: SSH keys saved in NodeRings, a password,
-  cloud-init user data, or saved cloud-init user data. The node only sends the one you choose.
+- **One access method** per create or reinstall: SSH keys saved in NodeRings, or a password.
+  The node only sends the one you choose.
+- **Cloud-init user data is no longer accepted** by the API on create or reinstall (it answers
+  `Cloud-init user data is no longer accepted. Provide SSH keys or a password.`). The
+  node no longer offers User Data or Saved Cloud-Init User Data; workflows saved with those
+  options stop with a clear error. Create the server with SSH keys, then run your setup over SSH
+  (for example with n8n's SSH node). The **Cloud-Init User Data** resource is kept only to list and
+  delete profiles you saved before.
 - **Idempotency key:** every create sends one (a UUID). Leave it empty to generate a new one, or
   set it yourself and reuse it when you retry a create that may already have gone through.
 - **Simplify** (on by default for virtual machines) returns 10 fields: `id`, `hostname`,

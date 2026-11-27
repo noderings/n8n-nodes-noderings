@@ -385,12 +385,20 @@ export const firewallRulesetDescription: INodeProperties[] = [
 const cloudInitPath = `=/v1/cloudinituserdata/${idPath('cloudInitId')}`;
 
 export const cloudInitDescription: INodeProperties[] = [
+	{
+		displayName:
+			'Deprecated: NodeRings no longer accepts cloud-init user data when creating or reinstalling a virtual machine, so saved profiles cannot be used. These operations are kept to list and clean up existing profiles.',
+		name: 'cloudInitDeprecationNotice',
+		type: 'notice',
+		default: '',
+		displayOptions: { show: { resource: ['cloudInitUserData'] } },
+	},
 	operations('cloudInitUserData', 'getAll', [
 		{
 			name: 'Create',
 			value: 'create',
 			action: 'Create cloud-init user data',
-			description: 'Save cloud-init user data to reuse when creating virtual machines',
+			description: 'Save cloud-init user data. Deprecated: virtual machines can no longer use it.',
 			routing: {
 				request: {
 					method: 'POST',

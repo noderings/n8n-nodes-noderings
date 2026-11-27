@@ -51,16 +51,11 @@ function installFields(operations: string[]): INodeProperties[] {
 			type: 'options',
 			default: 'sshKeys',
 			displayOptions: show(operations),
-			description: 'How you will log in. The API accepts exactly one access method.',
+			description:
+				'How you will log in. The API accepts exactly one access method. Cloud-init user data is no longer accepted.',
 			options: [
 				{ name: 'SSH Keys', value: 'sshKeys', description: 'Install SSH keys saved in NodeRings' },
 				{ name: 'Password', value: 'password', description: 'Set a root password' },
-				{ name: 'User Data', value: 'userData', description: 'Run a cloud-init user-data script' },
-				{
-					name: 'Saved Cloud-Init User Data',
-					value: 'cloudInitUserData',
-					description: 'Use cloud-init user data saved in NodeRings',
-				},
 			],
 		},
 		{
@@ -87,32 +82,6 @@ function installFields(operations: string[]): INodeProperties[] {
 				show: { resource: [resource], operation: operations, accessMethod: ['password'] },
 			},
 			description: 'Root password for the virtual machine',
-		},
-		{
-			displayName: 'User Data',
-			name: 'userData',
-			type: 'string',
-			typeOptions: { rows: 6 },
-			default: '',
-			required: true,
-			placeholder: '#cloud-config',
-			displayOptions: {
-				show: { resource: [resource], operation: operations, accessMethod: ['userData'] },
-			},
-			description: 'Cloud-init user data run on first boot. Put any SSH keys you need inside it.',
-		},
-		{
-			displayName: 'Cloud-Init User Data Name or ID',
-			name: 'cloudInitUserDataId',
-			type: 'options',
-			typeOptions: { loadOptionsMethod: 'getCloudInitOptions' },
-			default: '',
-			required: true,
-			displayOptions: {
-				show: { resource: [resource], operation: operations, accessMethod: ['cloudInitUserData'] },
-			},
-			description:
-				'Saved cloud-init user data. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
 		},
 	];
 }
@@ -352,7 +321,7 @@ export const virtualMachineDescription: INodeProperties[] = [
 				name: 'instantAppId',
 				type: 'string',
 				default: '',
-				description: 'Instant app to install. Cannot be combined with user data.',
+				description: 'Instant app to install',
 			},
 			{
 				displayName: 'Tags',

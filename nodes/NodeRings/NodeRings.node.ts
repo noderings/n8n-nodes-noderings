@@ -14,7 +14,6 @@ import {
 } from './resources/machineData';
 import { virtualMachineDescription } from './resources/virtualMachine';
 import {
-	getCloudInitOptions,
 	getCloudInitUserData,
 	getDistros,
 	getDnsZones,
@@ -55,7 +54,7 @@ export class NodeRings implements INodeType {
 				default: 'virtualMachine',
 				options: [
 					{ name: 'Backup', value: 'backup' },
-					{ name: 'Cloud-Init User Data', value: 'cloudInitUserData' },
+					{ name: 'Cloud-Init User Data (Deprecated)', value: 'cloudInitUserData' },
 					{ name: 'DNS Record', value: 'dnsRecord' },
 					{ name: 'DNS Zone', value: 'dnsZone' },
 					{ name: 'Firewall Ruleset', value: 'firewallRuleset' },
@@ -90,7 +89,6 @@ export class NodeRings implements INodeType {
 		loadOptions: {
 			getDistros,
 			getSshKeyOptions,
-			getCloudInitOptions,
 		},
 	};
 }

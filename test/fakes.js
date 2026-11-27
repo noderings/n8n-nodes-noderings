@@ -12,6 +12,7 @@ function context({ params = {}, pages = [], mode = 'trigger', staticData = {} } 
 			if (options && options.extractValue && v && typeof v === 'object' && 'value' in v) return v.value;
 			return v;
 		},
+		getNode: () => ({ name: 'NodeRings', type: 'n8n-nodes-noderings.nodeRings' }),
 		getMode: () => mode,
 		getWorkflowStaticData: () => staticData,
 		getCredentials: async () => ({ apiToken: 't', organizationId: '', baseUrl: 'https://api.example.test/' }),
